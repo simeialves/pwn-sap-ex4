@@ -8,15 +8,9 @@
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item"><a class="nav-link" href="../">Início</a></li>
                 <input type="hidden" name="token" value={{token}} />
-                {{#if user}}
                 <li class="nav-item"><a class="nav-link" href="/api/produtos">Produtos</a></li>
-                {{else}}
-                {{/if}}
-                <li class="nav-item"><a class="nav-link" href="/api/contato">Contato</a></li>
-                {{#if user}}
+                <li class="nav-item"><a class="nav-link" href="/api/clientes">Clientes</a></li>
                 <li class="nav-item"><a class="nav-link" href="/usuarios/logout">Logout</a></li>
-                {{else}}
-                {{/if}}
                 <li class="nav-item"><a class="nav-link" href="/user/login">Login</a></li>
             </ul>
             {{!--

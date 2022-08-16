@@ -13,14 +13,12 @@ const knex = require('knex')({
 const bodyParser = require('body-parser')
 const urlencodeParser = bodyParser.urlencoded({ extended: false })
 
-apiRouter.get("/inserir", function (req, res) { res.render("inserir") })
 apiRouter.get("/contato", function (req, res) { res.render("contato") })
 
-//#region Produtos
-
-const checkToken = (req, res, next) => {        
+//#region Validações
+const checkToken = (req, res, next) => {
     console.log(req)
-    let authHeader = req.get('Authorization')    
+    let authHeader = req.get('Authorization')
     //let authHeader = req.body.token    
     if (!authHeader) {
         res.status(403).json({ message: 'Token requerida: ' + authHeader })
@@ -66,6 +64,9 @@ const isAdmin = (req, res, next) => {
             })
         })
 }
+//#endregion
+
+//#region Produtos
 
 //LOCALIZAR TODOS PRODUTOS OU POR ID
 apiRouter.get('/produtos/:id?', function (req, res) {
@@ -74,7 +75,7 @@ apiRouter.get('/produtos/:id?', function (req, res) {
             .select('*')
             .from('produto').orderBy('id')
             .then(function (produtos) {
-                res.render('produtos', { produtos: produtos })
+                res.render('produtos/produtos', { produtos: produtos })
             }
             )
     }
@@ -84,7 +85,7 @@ apiRouter.get('/produtos/:id?', function (req, res) {
             knex
                 .where({ id: id }).table("produto")
                 .then(function (produtos) {
-                    res.render('produtos', { produtos: produtos })
+                    res.render('produtos/produtos', { produtos: produtos })
                 }
                 )
         }
@@ -97,6 +98,9 @@ apiRouter.get('/produtos/:id?', function (req, res) {
 })
 
 //INSERT PRODUTO
+
+apiRouter.get("/novoProduto", function (req, res) { res.render("produtos/novoProduto") })
+
 apiRouter.post('/produtos', urlencodeParser, express.json(), function (req, res) {
     knex('produto')
         .insert({
@@ -119,7 +123,7 @@ apiRouter.get("/produtos/update/:id", function (req, res) {
         knex
             .where({ id: id }).table("produto")
             .then(function (produtos) {
-                res.render("update", { produtos: produtos })
+                res.render("produtos/editProduto", { produtos: produtos })
             }
             )
     }
@@ -161,6 +165,110 @@ apiRouter.get('/produtos/deletar/:id', express.json(), function (req, res) {
         })
     }
 })
+
+//#endregion
+
+//#region Clientes
+
+//LOCALIZAR TODOS CLIENTES OU POR ID
+apiRouter.get('/clientes/:id?', function (req, res) {
+    if (!req.params.id) {
+        knex
+            .select('*')
+            .from('cliente').orderBy('id')
+            .then(function (clientes) {
+                res.render('clientes/clientes', { clientes: clientes })
+            }
+            )
+    }
+    else {
+        let id = Number.parseInt(req.params.id)
+        if (id > -1) {
+            knex
+                .where({ id: id }).table("cliente")
+                .then(function (clientes) {
+                    res.render('clientes/clientes', { clientes: clientes })
+                }
+                )
+        }
+        else {
+            res.status(404).json({
+                message: "Cliente não encontrado"
+            })
+        }
+    }
+})
+
+//INSERT CLIENTE
+apiRouter.get("/novoCliente", function (req, res) {
+    res.render("clientes/novoCliente")
+})
+
+apiRouter.post('/clientes/novo', urlencodeParser, express.json(), function (req, res) {
+    knex('cliente')
+        .insert({
+            nome: req.body.nome,
+            documento: req.body.documento,
+            profissao: req.body.profissao
+        })
+        .then(clientes => {
+            let cliente = clientes[0];
+            res.redirect('/api/clientes');
+        })
+        .catch(err => res.status(500).json({ message: `Erro ao inserir cliente: ${err.message}` }))
+})
+
+//UPDATE CLIENTE
+apiRouter.get("/clientes/update/:id", function (req, res) {
+    let id = Number.parseInt(req.params.id)
+
+    if (id > -1) {
+        knex
+            .where({ id: id }).table("cliente")
+            .then(function (clientes) {
+                res.render("clientes/editCliente", { clientes: clientes })
+            }
+            )
+    }
+})
+
+apiRouter.post('/clientes/update/:id', urlencodeParser, express.json(), function (req, res) {
+    let id = Number.parseInt(req.params.id);
+
+    if (id > 0) {
+        knex.where({ id: id }).update({
+            nome: req.body.nome,
+            documento: req.body.documento,
+            profissao: req.body.profissao
+        }).table("cliente")
+            .then(usuarios => {
+                res.redirect('/api/clientes');
+            }).catch(err => {
+                console.log(err);
+            })
+    } else {
+        res.status(404).json({
+            message: "Usuário não encontrado"
+        })
+    }
+})
+
+//DELETE CLIENTE
+apiRouter.get('/clientes/deletar/:id', express.json(), function (req, res) {
+    let id = Number.parseInt(req.params.id);
+    if (id > 0) {
+        knex.where({ id: id }).delete().table("cliente").then(clientes => {
+            res.redirect('/api/clientes');
+        }).catch(err => {
+            console.log(err);
+        })
+    } else {
+        res.status(404).json({
+            message: "Cliente não encontrado"
+        })
+    }
+})
+
 //#endregion
 
 //#region Usuarios
