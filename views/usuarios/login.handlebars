@@ -1,0 +1,24 @@
+<h4>Login: </h4>
+<div class="card">
+    <div class="card-body">
+        <form action="/sec/login" method="post">
+            {{!-- <label for="email">Login: </label>
+            <input type="text" name="login" class="form-control"> --}}
+
+            <label for="email">E-mail:</label>
+            <input type="email" name="email" class="form-control">
+
+            <label for="senha">Senha: </label>
+            <input type="password" name="senha" class="form-control">
+
+            {{!-- <label for="login">Login:</label>
+            <input type="text" name="username" class="form-control">
+
+            <label for="senha">Senha: </label>
+            <input type="password" name="password" class="form-control"> --}}
+
+            <button class="btn btn-primary mt-4" type="submit">Entrar</button>
+            <a href="/sec/register"><button class="btn btn-success mt-4" type="submit">Cadastre-se</button></a>
+        </form>
+    </div>
+</div>

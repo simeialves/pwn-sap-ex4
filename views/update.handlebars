@@ -1,0 +1,13 @@
+<form name="form1" action="{{id}}" method="post">
+    <h3>Alterar Produto</h3>
+    {{#each produtos}}
+    <input type="hidden" class="form-control" name="id" id="id" placeholder="Id" value="{{id}}"><br>
+    <input type="text" class="form-control" name="descricao" id="descricao" placeholder="Descrição" value="{{descricao}}"><br>
+    <input type="text" class="form-control" name="valor" id="valor" placeholder="Valor" value="{{valor}}"><br>
+    <input type="text" class="form-control" name="marca" id="marca" placeholder="Marca" value="{{marca}}"><br>
+    {{else}}
+
+    {{/each}}    
+    <input type="submit" class="btn btn-success" name="btnSubmit" id="btnSubmit" value="Salvar">
+    <a href="../" class="btn btn-secondary">Voltar</a>
+</form>

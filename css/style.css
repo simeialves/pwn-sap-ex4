@@ -1,0 +1,46 @@
+/* *{background: rgb(255, 255, 255)} */
+html{
+    margin: 0px;
+}
+body {
+    background-color: rgb(255, 255, 255);
+    display: block;
+    margin: 0px;
+    padding: 0px;
+    height: 100%;
+}
+.logo {
+    display: block;
+    margin: 0 auto;
+}
+
+table {
+    width: 20%;
+    text-align: center;
+    margin: auto 0;
+    margin-top: 10px;
+}
+
+table td {
+    width: 0 auto;
+}
+
+table tr:first-child {
+    background: rgb(215, 214, 216);
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+}
+
+form {
+    margin: 20px
+}
+
+.rodape {    
+    flex-shrink: 0;
+    background-color: black;
+    color: white;
+    padding: 30px;
+    text-align: left;
+    margin-top: 10px;
+    padding: 20px;
+}

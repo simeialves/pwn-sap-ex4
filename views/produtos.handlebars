@@ -1,0 +1,24 @@
+<h4>Produtos: </h4>
+<hr>
+<table class="table table-striped mt-4">    
+    <tr>
+        <td>Código</td>
+        <td>Descrição</td>
+        <td>Valor</td>
+        <td>Marca</td>
+        <td colspan="2">Ação</td>
+    </tr>
+    {{#produtos}}
+    <tr>
+        <td>{{id}}</td>
+        <td>{{descricao}}</td>
+        <td>{{valor}}</td>
+        <td>{{marca}}</td>
+        <td><a href="/api/produtos/update/{{id}}"><img src="/images/edit.png"></a></td>
+        <td><a href="/api/produtos/deletar/{{id}}" class="deletar"><img src="/images/delete.png" method="delete"></a>
+        </td>
+    </tr>
+    {{/produtos}}
+</table>
+<a href="/api/Inserir" class="btn btn-primary">Novo Produto</a>
+<a href="../" class="btn btn-secondary">Voltar</a>
